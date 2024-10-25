@@ -137,8 +137,8 @@ export default function GoonTracker() {
             </TabsList>
             <TabsContent value="log">
               <div className="space-y-4 mt-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-4 order-1 md:order-none">
                     <div>
                       <Label htmlFor="study-time">Study Time</Label>
                       <div className="flex">
@@ -148,7 +148,7 @@ export default function GoonTracker() {
                           placeholder="Enter study time"
                           value={studyTime}
                           onChange={(e) => setStudyTime(e.target.value)}
-                          className="rounded-r-none"
+                          className="rounded-r-none w-full"
                         />
                         <Select value={timeUnit} onValueChange={setTimeUnit}>
                           <SelectTrigger className="w-[110px] rounded-l-none">
@@ -172,13 +172,13 @@ export default function GoonTracker() {
                     </div>
                     <Button onClick={saveStudyTime} className="w-full">Log Time</Button>
                   </div>
-                  <div>
+                  <div className="order-2 md:order-none">
                     <Label>Select Date</Label>
                     <Calendar
                       mode="single"
                       selected={selectedDate}
                       onSelect={setSelectedDate}
-                      className="rounded-md border"
+                      className="rounded-md border mx-auto"
                     />
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function GoonTracker() {
                 <div>
                   <Label>Study Heat Map</Label>
                   <div className="overflow-x-auto scrollbar-hide">
-                    <div className="w-[800px]">
+                    <div className="min-w-[800px]">
                       <HeatMap data={studyData} />
                     </div>
                   </div>
