@@ -81,6 +81,23 @@
   }
 }
 
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  --tw-ring-color: transparent !important;
+}
+
+/* Remove number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* DayPicker styles */
 .rdp {
   --rdp-cell-size: 40px;
