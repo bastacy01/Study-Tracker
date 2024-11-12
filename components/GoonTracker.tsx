@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { format, startOfWeek, startOfMonth, startOfYear, endOfWeek, endOfMonth, endOfYear } from 'date-fns';
+import { format, startOfWeek, startOfMonth, startOfYear, endOfWeek, endOfMonth, endOfYear, isWithinInterval } from 'date-fns';
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -76,26 +76,39 @@ export default function GoonTracker() {
   };
 
   const calculateTotalTime = (start: Date, end: Date) => {
-    return Object.entries(studyData).reduce((total, [date, sessions]) => {
-      const currentDate = new Date(date);
-      if (currentDate >= start && currentDate <= end) {
-        return total + sessions.reduce((sum, session) => sum + session.time, 0);
+    let total = 0;
+    Object.entries(studyData).forEach(([dateStr, sessions]) => {
+      const currentDate = new Date(dateStr);
+      if (isWithinInterval(currentDate, { start, end })) {
+        total += sessions.reduce((sum, session) => sum + session.time, 0);
       }
-      return total;
-    }, 0);
+    });
+    return total;
   };
 
   const getTotalStudyTime = () => {
     const today = new Date();
+    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+
     switch (statisticsPeriod) {
       case 'day':
-        return calculateTotalTime(today, today);
-      case 'week':
-        return calculateTotalTime(startOfWeek(today), endOfWeek(today));
-      case 'month':
-        return calculateTotalTime(startOfMonth(today), endOfMonth(today));
-      case 'year':
-        return calculateTotalTime(startOfYear(today), endOfYear(today));
+        return calculateTotalTime(startOfToday, endOfToday);
+      case 'week': {
+        const weekStart = startOfWeek(today, { weekStartsOn: 1 }); // Start week on Monday
+        const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+        return calculateTotalTime(weekStart, weekEnd);
+      }
+      case 'month': {
+        const monthStart = startOfMonth(today);
+        const monthEnd = endOfMonth(today);
+        return calculateTotalTime(monthStart, monthEnd);
+      }
+      case 'year': {
+        const yearStart = startOfYear(today);
+        const yearEnd = endOfYear(today);
+        return calculateTotalTime(yearStart, yearEnd);
+      }
       default:
         return 0;
     }
