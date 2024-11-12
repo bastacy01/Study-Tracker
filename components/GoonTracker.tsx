@@ -172,13 +172,13 @@ export default function GoonTracker() {
                     </div>
                     <Button onClick={saveStudyTime} className="w-full">Log Time</Button>
                   </div>
-                  <div className="order-2 md:order-none">
-                    <Label>Select Date</Label>
+                  <div className="order-2 md:order-none flex flex-col items-center">
+                    <Label className="self-start md:self-auto">Select Date</Label>
                     <Calendar
                       mode="single"
                       selected={selectedDate}
                       onSelect={setSelectedDate}
-                      className="rounded-md border mx-auto"
+                      className="rounded-md border"
                     />
                   </div>
                 </div>
