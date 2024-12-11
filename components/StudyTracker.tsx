@@ -121,7 +121,7 @@ export default function GoonTracker() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Goon Tracker</h1>
+        <h1 className="text-4xl font-bold">Study Tracker</h1>
         <Button variant="outline" size="icon" onClick={toggleTheme}>
           {theme === 'dark' ? (
             <SunIcon className="h-[1.2rem] w-[1.2rem]" />
@@ -133,7 +133,7 @@ export default function GoonTracker() {
       
       <Card>
         <CardHeader>
-          <CardTitle>Study Time Logger</CardTitle>
+          <CardTitle>Study Time Log</CardTitle>
           <p className="text-muted-foreground">Track your daily study time and visualize your progress</p>
         </CardHeader>
         <CardContent>
