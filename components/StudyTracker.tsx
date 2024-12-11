@@ -86,34 +86,62 @@ export default function GoonTracker() {
     return total;
   };
 
-  const getTotalStudyTime = () => {
-    const today = new Date();
-    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+  // const getTotalStudyTime = () => {
+  //   const today = new Date();
+  //   const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  //   const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
 
+  //   switch (statisticsPeriod) {
+  //     case 'day':
+  //       return calculateTotalTime(startOfToday, endOfToday);
+  //     case 'week': {
+  //       const weekStart = startOfWeek(today, { weekStartsOn: 1 }); // Start week on Monday
+  //       const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+  //       return calculateTotalTime(weekStart, weekEnd);
+  //     }
+  //     case 'month': {
+  //       const monthStart = startOfMonth(today);
+  //       const monthEnd = endOfMonth(today);
+  //       return calculateTotalTime(monthStart, monthEnd);
+  //     }
+  //     case 'year': {
+  //       const yearStart = startOfYear(today);
+  //       const yearEnd = endOfYear(today);
+  //       return calculateTotalTime(yearStart, yearEnd);
+  //     }
+  //     default:
+  //       return 0;
+  //   }
+  // };
+
+  const getTotalStudyTime = () => {
+    if (!selectedDate) return 0;
+    
+    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    
     switch (statisticsPeriod) {
       case 'day':
-        return calculateTotalTime(startOfToday, endOfToday);
+        // For day, simply sum up all sessions for the selected date
+        return (studyData[dateStr] || []).reduce((sum, session) => sum + session.time, 0);
       case 'week': {
-        const weekStart = startOfWeek(today, { weekStartsOn: 1 }); // Start week on Monday
-        const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+        const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+        const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
         return calculateTotalTime(weekStart, weekEnd);
       }
       case 'month': {
-        const monthStart = startOfMonth(today);
-        const monthEnd = endOfMonth(today);
+        const monthStart = startOfMonth(selectedDate);
+        const monthEnd = endOfMonth(selectedDate);
         return calculateTotalTime(monthStart, monthEnd);
       }
       case 'year': {
-        const yearStart = startOfYear(today);
-        const yearEnd = endOfYear(today);
+        const yearStart = startOfYear(selectedDate);
+        const yearEnd = endOfYear(selectedDate);
         return calculateTotalTime(yearStart, yearEnd);
       }
       default:
         return 0;
     }
   };
-
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
